@@ -4,7 +4,7 @@ main:
 
 	jms ReadInput
 
-	fim r12 $22
+	fim r12 $00
 	jms CountNeighborgs
 	jms PrintMemory
 	
@@ -55,7 +55,7 @@ ReadInput:
 	
 CountNeighborgs:
 
-	fim r4 $00
+	fim r4 $04
 	fim r6 $22
 	fim r8 $FF
 	
@@ -76,16 +76,22 @@ CountNeighborgs:
 	add r12
 	xch r0
 
+	ld  r5
+	dac
+	xch r5
+	jcn az SkipCell
+	
 	src r0
 	rdm
 	clc
-	add r5
-	xch r5
+	add r4
+	xch r4
 	src r12
 	wrm	
 	
 	jms PrintRegisters
-	
+
+	SkipCell:
 	clc
 	ld  r9
 	iac
@@ -95,7 +101,6 @@ CountNeighborgs:
 	dac
 	xch r7
 	jcn c1 NextOne
-	
 	
 	ldm 2
 	xch r7
@@ -111,7 +116,7 @@ CountNeighborgs:
 	dac
 	xch r6
 	jcn c1 NextOne
-
+	
 	bbl 0
 	
 ReadCharacter:
