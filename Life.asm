@@ -3,12 +3,20 @@ main:
 	fim r14 $77
 	jms ReadInput
 
+	;jun TEST
 	fim r12 $00
 	fim r14 $77
 	jms CalcNextGen
-
-	jms PrintMemory
+	;jms PrintMemory
+	;jms PrintRegisters
+	jun end_prog
 	
+	TEST:
+	fim r12 $33
+	fim r14 $77
+	jms CountNeighborgs
+	;jms PrintRegisters
+
 	jun end_prog
 	
 ReadInput:
@@ -60,6 +68,7 @@ CountNeighborgs:
 	fim r6 $22
 	fim r8 $FF
 	
+	;jms PrintRegisters
 	NextOne:
 	
 	ld  r13
@@ -82,6 +91,15 @@ CountNeighborgs:
 	xch r5
 	jcn az SkipCell
 	
+	clc
+	ld  r1
+	ral
+	jcn c1 SkipCell
+	clc
+	ld  r0
+	ral
+	jcn c1 SkipCell
+	
 	src r0
 	rdm
 	jcn az NotAlive
@@ -89,11 +107,6 @@ CountNeighborgs:
 	iac
 	xch r4
 	NotAlive:
-	;clc
-	;add r4
-	;xch r4
-	;src r12
-	;wrm	
 	
 	;jms PrintRegisters
 
