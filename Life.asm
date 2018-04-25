@@ -4,13 +4,17 @@ main:
 
 	jms ReadInput
 
+	fim r12 $22
+	jms CountNeighborgs
+	jms PrintMemory
+	
 	jun end_prog
 	
 ReadInput:
 
 	jms ReadCharacter
 	jms PrintCharacter
-	jms PrintRegisters
+	;jms PrintRegisters
 	
 	ld  r3
 	src r12
@@ -45,10 +49,64 @@ ReadInput:
 	xch r14
 	jcn c1 ReadInput
 	
-	jms PrintMemory
+	;jms PrintMemory
 	
 	bbl 0
+	
+CountNeighborgs:
 
+	fim r4 $00
+	fim r6 $22
+	fim r8 $FF
+	
+	NextOne:
+	
+	ld  r13
+	xch r11
+	ld  r12
+	xch r10
+
+	clc
+	ld  r11
+	add r9
+	xch r9
+	ld  r9
+	xch r1
+	clc
+	ld  r10
+	add r8
+	xch r8
+	ld  r8
+	xch r0
+	
+	jms PrintRegisters
+	;bbl 0
+	
+	src r0
+	rdm
+	clc
+	add r5
+	xch r5
+	src r12
+	wrm	
+	
+	clc
+	ld  r7
+	dac
+	xch r7
+	jcn c1 NextOne
+	
+	ldm 2
+	xch r7
+	
+	clc
+	ld  r6
+	dac
+	xch r6
+	jcn c1 NextOne
+
+	bbl 0
+	
 ReadCharacter:
 	jms $3f0
 	bbl 0
@@ -76,3 +134,4 @@ PrintRegisters:
 	
 end_prog:
 	jms PrintNewLine
+	jms PrintRegisters
