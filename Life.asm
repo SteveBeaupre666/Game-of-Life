@@ -66,22 +66,16 @@ CountNeighborgs:
 	ld  r12
 	xch r10
 
+
 	clc
-	ld  r11
-	add r9
-	xch r9
 	ld  r9
+	add r13
 	xch r1
 	clc
-	ld  r10
-	add r8
-	xch r8
 	ld  r8
+	add r12
 	xch r0
-	
-	jms PrintRegisters
-	;bbl 0
-	
+
 	src r0
 	rdm
 	clc
@@ -90,15 +84,28 @@ CountNeighborgs:
 	src r12
 	wrm	
 	
+	jms PrintRegisters
+	
+	clc
+	ld  r9
+	iac
+	xch r9
 	clc
 	ld  r7
 	dac
 	xch r7
 	jcn c1 NextOne
 	
+	
 	ldm 2
 	xch r7
+	ldm 15
+	xch r9
 	
+	clc
+	ld  r8
+	iac
+	xch r8
 	clc
 	ld  r6
 	dac
@@ -134,4 +141,4 @@ PrintRegisters:
 	
 end_prog:
 	jms PrintNewLine
-	jms PrintRegisters
+	;jms PrintRegisters
