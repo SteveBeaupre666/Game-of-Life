@@ -92,12 +92,21 @@ CountNeighbors:
 		add r10
 		xch r14
 	
-		ld r15
+		clc
+		ld  r15
 		ral
-		jcn c1 InvalidCell
-		ld r14
+		clc
+		rar
+		clc
+		xch r15
+		
+		clc
+		ld  r14
 		ral
-		jcn c1 InvalidCell
+		clc
+		rar
+		clc
+		xch r14
 		
 		clc
 		src r14
