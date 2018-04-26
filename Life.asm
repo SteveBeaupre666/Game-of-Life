@@ -11,7 +11,16 @@ main:
 	
 	jms CalcNextGen
 	
+	;fim r0 $01
+	;ldm 4
+	;xch r9
+	;jms CalcNewState
+	;jms PrintRegs
+	
 	jms PrintMemory
+	jms PrintNewLine
+	jms PrintNewLine
+	jms PrintRegs
 
 	jun end_prog
 	
@@ -137,7 +146,22 @@ CalcNextGen:
 	NextCol3:
 	
 	jms CountNeighbors
-	;jms PrintRegs
+	
+	jms CalcNewState	
+	xch r7
+	jms PrintRegs
+	
+	clc
+	ldm 8
+	add r0
+	xch r0
+	src r0
+	ld  r7
+	wrm
+	clc
+	ldm 8
+	add r0
+	xch r0
 	
 	clc
 	ld  r1
@@ -156,8 +180,35 @@ CalcNextGen:
 	xch r0
 	isz r4 NextRow3
 
-
 	bbl 0
+	
+CalcNewState:
+
+	src r0
+	rdm
+	jcn az Dead
+	
+	Alive:
+	clc
+	ldm 14
+	add r9
+	jcn az StayAlive
+		clc
+		ldm 13
+		add r9
+		jcn az StayAlive
+		bbl 0
+	StayAlive:
+		bbl 1
+	
+	Dead:
+		clc
+		ldm 13
+		add r9
+		jcn az Born
+		bbl 0	
+	Born:	
+		bbl 1
 	
 ReadChar:
     jms $3f0
